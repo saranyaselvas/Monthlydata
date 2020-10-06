@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script><script>
+    function getData() {
+    var state = document.getElementById("state").value;
+	var month = document.getElementById("month").value;
+	var cn = rc = dc = count=0,flag=0;
+	
+   $.getJSON('https://api.covid19india.org/states_daily.json', function(result){
+  for (i in result.states_daily)
+  {
+	var str=result.states_daily[i].date;
+	var d=new Date(str);
+	var m=d.getMonth()+1;
+	var states = ["an","ap","as","br","ct","ga","gj","hp","hr","jh","jk","ka","kl","mh","ml","mn","mp","tn","mz","nl","or","pb","rj","sk","tg","tr","up","ut" ,"wb" ];
+	
+	if(month == m )
+	{   
+	
+	    for(j=0;j<29;j++)
+	   {
+	     if(state==states[j] )
+		 {
+		
+	     break;
+		 }
+		 }
+	   
+		if(state == states[j] && result.states_daily[i].status == "Confirmed")
+		{	
+			cn = cn +  parseInt(result.states_daily[i][states[j]]);
+			
+		}
+		
+		if(state == states[j] && result.states_daily[i].status == "Recovered")
+		{	
+			rc = rc +  parseInt(result.states_daily[i][states[j]]);
+			
+		}
+		
+		if(state == states[j] && result.states_daily[i].status == "Deceased")
+		{	
+			dc = dc +  parseInt(result.states_daily[i][states[j]]);
+			
+		}
+		
+	}
+}
+	
+	
+    document.getElementById("conf").value = cn;
+    
+    document.getElementById("rec").value = rc;
+	
+    document.getElementById("dec").value = dc;
+	
+	   //Set the string in the proper format(best to use ISO format ie YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)
+    //converts the string into date object
+   //get the value of month
+            
+    
+  });
+}
+    </script>
+    <style type="text/css">
+    td {
+    width: 200px;
+    font-size: 15px;
+    }
+    select, input {
+    height: 35px;
+    width: 300px;
+    font-size: 15px;
+    }
+    </style>
+</head>
+
+<body style="padding-top: 100px;">
+<fieldset style="padding-left: 100px; padding-right: 400px;">
+        <legend align="center">COVID TRACKER</legend>
+   <table align="center">
+    <tr>
+    <td><label for="state">STATE :</label></td>                                  
+<td>
+<select name="state" id="state">
+<option value="null">--------   SELECT  ---------</option>
+<option value="ap">Andhra Pradesh</option>
+<option value="an">Arunachal Pradesh</option>
+<option value="as">Assam</option>
+<option value="br">Bihar</option>
+<option value="ct">Chhattisgarh</option>
+<option value="ga">Goa</option>
+<option value="gj">Gujarat</option>
+<option value="hr">Haryana</option>
+<option value="hp">Himachal Pradesh</option>
+<option value="jk">Jammu and Kashmir</option>
+<option value="jh">Jharkhand</option>
+<option value="ka">Karnataka</option>
+<option value="kl">Kerala</option>
+<option value="mp">Madhya Pradesh</option>
+<option value="mh">Maharashtra</option>
+<option value="mn">Manipur</option>
+<option value="ml">Meghalaya</option>
+<option value="mz">Mizoram</option>
+<option value="nl">Nagaland</option>
+<option value="or">Orissa</option>
+<option value="pb">Punjab</option>
+<option value="rj">Rajasthan</option>
+<option value="sk">Sikkim</option>
+<option value="tn">Tamil Nadu</option>
+<option value="tg">Telangana</option>
+<option value="tr">Tripura</option>
+<option value="up">Uttar Pradesh</option>
+<option value="ut">Uttarakhand</option>
+<option value="wb">West Bengal</option>
+</select>
+</td>
+</tr>
+
+<tr>
+    <td><label for="month">MONTH :</label></td>                                  
+<td>
+<select name="month" id="month">
+<option value="null">--------   SELECT  ---------</option>
+<option value="3">March</option>
+<option value="4">April</option>
+<option value="5">May</option>
+<option value="6">June</option>
+<option value="7">July</option>
+<option value="8">August</option>
+<option value="9">September</option>
+<option value="10">October</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><label for="conf">TOTAL CONFIRMED</label></td>
+<td><input type="text" name="conf" id="conf" value="0" disabled /></td>
+</tr>
+
+<tr>
+<td><label for="rec">RECOVERED CASES</label></td>
+<td><input type="text" name="rec" id="rec" value="0" disabled /></td>
+</tr>
+<tr>
+<td><label for="dec">DECEASED CASES</label></td>
+<td><input type="text" name="dec" id="dec" value="0" disabled /></td>
+</tr>
+
+<tr>
+<td>
+<button onclick="getData()">FETCH DATA</button>
+</td>
+</tr>
+</table>
+</fieldset>
+
+
+
+
+</body>
+</html>
