@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<style type="text/css">
+
+
+
+		*{
+			 margin-left: 35px;
+		 
+		  padding: 3px;
+		  font-family: sans-serif;
+
+		}
+		body{
+		  height: 100vh;
+		  background: url('https://wallpaperaccess.com/download/blur-1385570') fixed no-repeat;
+		  background-size: cover;
+		}
+	    td 
+	    {
+	    width: 200px;
+	    font-size: 15px;
+
+	    }
+	    
+	</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Miriam+Libre:wght@700&family=Roboto+Mono&family=Sansita+Swashed:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Miriam+Libre:wght@700&family=Roboto+Mono:wght@400;500&family=Sansita+Swashed:wght@500&family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script><script>
+    function getData() {
+    var state = document.getElementById("state").value;
+	var month = document.getElementById("month").value;
+	var cn = rc = dc = count=0,flag=0;
+	
+   $.getJSON('https://api.covid19india.org/states_daily.json', function(result){
+  for (i in result.states_daily)
+  {
+	var str=result.states_daily[i].date;
+	var d=new Date(str);
+	var m=d.getMonth()+1;
+	var states = ["an","ap","as","br","ct","ga","gj","hp","hr","jh","jk","ka","kl","mh","ml","mn","mp","tn","mz","nl","or","pb","rj","sk","tg","tr","up","ut" ,"wb" ];
+	
+	if(month == m )
+	{   
+	
+	    for(j=0;j<29;j++)
+	   {
+	     if(state==states[j] )
+		 {
+		
+	     break;
+		 }
+		 }
+	   
+		if(state == states[j] && result.states_daily[i].status == "Confirmed")
+		{	
+			cn = cn +  parseInt(result.states_daily[i][states[j]]);
+			
+		}
+		
+		if(state == states[j] && result.states_daily[i].status == "Recovered")
+		{	
+			rc = rc +  parseInt(result.states_daily[i][states[j]]);
+			
+		}
+		
+		if(state == states[j] && result.states_daily[i].status == "Deceased")
+		{	
+			dc = dc +  parseInt(result.states_daily[i][states[j]]);
+			
+		}
+		
+	}
+}
+	
+	
+    document.getElementById("conf").value = cn;
+    
+    document.getElementById("rec").value = rc;
+	
+    document.getElementById("dec").value = dc;
+	
+	   //Set the string in the proper format(best to use ISO format ie YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)
+    //converts the string into date object
+   //get the value of month
+            
+    
+  });
+}
+    </script>
+    <style type="text/css">
+    td {
+    width: 200px;
+    font-size: 15px;
+    }
+    select {
+    height: 49px;
+    width: 337px;
+    font-size: 15px;
+    padding: 15px;
+        margin-bottom: 0px;
+    border-radius: 1000px;
+    font-family: 'Miriam Libre', sans-serif;
+
+    }
+
+    input
+	{
+    height: 49px;
+    width: 337px;
+    font-size: 15px;
+    padding: 15px;
+    margin-left: 0px;
+    border-radius: 1000px;
+    font-family: 'Miriam Libre', sans-serif;
+	}
+	legend {
+    	 
+    	padding: 25px;
+	  position: relative;
+	  font-family: 'Miriam Libre', sans-serif;;
+	  text-transform: uppercase;
+	  font-size: 2em;
+	  letter-spacing: 4px;
+	  overflow: hidden;
+	  background: linear-gradient(90deg, #ffffff, #000, #ffffff);
+	  background-repeat: no-repeat;
+	  background-size: 80%;
+	  animation: animate 5s linear infinite;
+	  -webkit-background-clip: text;
+	  -webkit-text-fill-color: rgba(255, 255, 255, 0);
+		}
+		@keyframes animate {
+		  0% {
+		    background-position: -500%;
+		  }
+		  100% {
+		    background-position: 500%;
+		  }
+		}
+		label
+		{
+			color:white;
+		}
+		.b
+		{
+			margin-top: 35px;
+    		margin-left: 290px;
+    		border-radius: 20px;
+    		padding: 7px;
+    		font-family: 'Miriam Libre';
+		}
+
+    </style>
+</head>
+
+<body style="padding-top: 21px;">
+<fieldset style="padding-left: 100px; padding-right: 400px;   padding-left: 347px;
+    padding-right: 218px;">
+        <legend align="center">COVID TRACKER</legend>
+   <table align="center">
+    <tr>
+    <td><label  style="font-family: 'Miriam Libre', sans-serif;" for="state">STATE :</label></td>   
+
+
+<td>
+<select name="state" id="state">
+<option value="null">--------   SELECT  ---------</option>
+<option value="ap">Andhra Pradesh</option>
+<option value="an">Arunachal Pradesh</option>
+<option value="as">Assam</option>
+<option value="br">Bihar</option>
+<option value="ct">Chhattisgarh</option>
+<option value="ga">Goa</option>
+<option value="gj">Gujarat</option>
+<option value="hr">Haryana</option>
+<option value="hp">Himachal Pradesh</option>
+<option value="jk">Jammu and Kashmir</option>
+<option value="jh">Jharkhand</option>
+<option value="ka">Karnataka</option>
+<option value="kl">Kerala</option>
+<option value="mp">Madhya Pradesh</option>
+<option value="mh">Maharashtra</option>
+<option value="mn">Manipur</option>
+<option value="ml">Meghalaya</option>
+<option value="mz">Mizoram</option>
+<option value="nl">Nagaland</option>
+<option value="or">Orissa</option>
+<option value="pb">Punjab</option>
+<option value="rj">Rajasthan</option>
+<option value="sk">Sikkim</option>
+<option value="tn">Tamil Nadu</option>
+<option value="tg">Telangana</option>
+<option value="tr">Tripura</option>
+<option value="up">Uttar Pradesh</option>
+<option value="ut">Uttarakhand</option>
+<option value="wb">West Bengal</option>
+</select>
+</td>
+</tr>
+
+<tr>
+    <td><label style="font-family: 'Miriam Libre', sans-serif;" for="month">MONTH :</label></td>                                  
+<td>
+<select name="month" id="month">
+<option value="null">--------   SELECT  ---------</option>
+<option value="3">March</option>
+<option value="4">April</option>
+<option value="5">May</option>
+<option value="6">June</option>
+<option value="7">July</option>
+<option value="8">August</option>
+<option value="9">September</option>
+<option value="10">October</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td><label style="font-family: 'Miriam Libre', sans-serif;" for="conf">TOTAL CONFIRMED</label></td>
+<td><input type="text" name="conf" id="conf" value="0" disabled /></td>
+</tr>
+
+<tr>
+<td><label style="font-family: 'Miriam Libre', sans-serif;" for="rec">RECOVERED CASES</label></td>
+<td><input type="text" name="rec" id="rec" value="0" disabled /></td>
+</tr>
+<tr>
+<td><label style="font-family: 'Miriam Libre', sans-serif;" for="dec">DECEASED CASES</label></td>
+<td><input type="text" name="dec" id="dec" value="0" disabled /></td>
+</tr>
+
+<tr>
+<td>
+<button class="b" onclick="getData()">FETCH</button>
+</td>
+</tr>
+</table>
+</fieldset>
+
+
+
+
+</body>
+</html>
